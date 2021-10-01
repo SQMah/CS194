@@ -101,7 +101,9 @@ def run_baum_welch(rolls):
     prob = log_add(f[0][-1], f[1][-1])
     print("Log probability of: {}".format(prob))
 
-    while prob < -175000:
+
+
+    while prob < -178400:
         b = backward_trellis(rolls, e, len(states), trans, pi_i)
         gamma = np.zeros((len(rolls), len(states)), dtype=np.float64)
         for t in range(len(rolls)):
@@ -164,8 +166,9 @@ def run_baum_welch(rolls):
         f = forward_trellis(rolls, e, len(states), trans, pi_i)
         prob = log_add(f[0][-1], f[1][-1])
         print("Log probability of: {}".format(prob))
-        print(trans)
+        print(exp(trans))
         print(exp(e.T))
+        print("==============")
 
 # TODO: write this function
 
