@@ -79,7 +79,7 @@ def backward_trellis(observations, e, k, t, pi):
     return dp
 
 
-def run_baum_welch(rolls):
+def run_baum_welch(rolls, thres):
     # return:
     # 	- 2 x 2 transition probability matrix
     #	- 6-dimensional array containing emission probabilities for dice 1
@@ -103,7 +103,7 @@ def run_baum_welch(rolls):
 
 
 
-    while prob < -178400:
+    while prob < thres:
         b = backward_trellis(rolls, e, len(states), trans, pi_i)
         gamma = np.zeros((len(rolls), len(states)), dtype=np.float64)
         for t in range(len(rolls)):
@@ -169,6 +169,7 @@ def run_baum_welch(rolls):
         print(exp(trans))
         print(exp(e.T))
         print("==============")
+    return exp(trans), exp(e.T[0]), exp(e.T[1])
 
 # TODO: write this function
 
@@ -178,13 +179,13 @@ def main():
 
     # Part A
     print("Part A")
-    transition_matrix_A, emission_1_A, emission_2_A = run_baum_welch(rolls)
+    transition_matrix_A, emission_1_A, emission_2_A = run_baum_welch(rolls, -178400)
     print_parameters(transition_matrix_A, emission_1_A, emission_2_A)
     print("")
 
     # Part B
     print("Part B")
-    transition_matrix_B, emission_1_B, emission_2_B = run_baum_welch(rolls[: 1000])
+    transition_matrix_B, emission_1_B, emission_2_B = run_baum_welch(rolls[: 1000], -1772)
     print_parameters(transition_matrix_B, emission_1_B, emission_2_B)
 
 

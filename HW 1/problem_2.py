@@ -1,6 +1,7 @@
 import itertools
 import numpy as np
 import matplotlib.pyplot as plt
+from collections import defaultdict
 
 TRAIN_DATA = "problem_2_train_data.txt"
 VAL_DATA = "problem_2_val_data.txt"
@@ -48,19 +49,20 @@ def train_markov_model(sequences, k):
     states = generate_states(k - 1, ["A", "C", "G", "T"], ["A", "C", "G", "T"])
     transition = np.zeros((4 ** k, 4 ** k), dtype=np.float128)
     idx = {v: i for i, v in enumerate(states)}
-    totals = 0
+    totals = defaultdict(lambda: 0)
 
     def count(a, b):
         nonlocal totals
         if len(a) == k and len(b) == k:
             transition[idx[a]][idx[b]] += 1
-            totals += 1
+            totals[idx[a]] += 1
 
     for i in range(len(sequences)):
         for j in range(len(sequences[i])):
             count(sequences[i][j: j + k], sequences[i][j + 1: j + k + 1])
 
-    transition = transition / totals
+    for k in totals:
+        transition[k] = transition[k] / totals[k]
 
     return states, transition
 

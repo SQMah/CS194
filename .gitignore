@@ -1,0 +1,8 @@
+.DS_Store
+.idea
+*.bw
+*.csv
+*.txt
+*.vcf
+*.npy
+*.pkl
