@@ -33,13 +33,16 @@ def k_fold_cross_validation(X, Y, k):
 		X_val, Y_val = X[start:end], Y[start:end]
 		model = SVC(kernel='linear', C=1e5)
 
-def plot_roc(model_type, roc, C):
+def plot_roc(model_type, roc, C=None):
 	plt.figure()
 	plt.xlim([0.0, 1.0])
 	plt.ylim([0.0, 1.0])
 	plt.xlabel("False positive rate")
 	plt.ylabel("True positive rate")
-	plt.title("{} ROC, C: {}, AUC: {}".format(model_type, C, metrics.auc(roc[0], roc[1])))
+	if C is not None:
+		plt.title("{} ROC, C: {}, AUC: {}".format(model_type, C, metrics.auc(roc[0], roc[1])))
+	else:
+		plt.title("{} ROC, AUC: {}".format(model_type, metrics.auc(roc[0], roc[1])))
 	plt.plot(roc[0], roc[1])
 	plt.savefig("{}_roc.png".format(model_type))
 
