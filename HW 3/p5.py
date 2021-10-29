@@ -225,100 +225,100 @@ def main():
     Y = y[p]
     k = 5
     model_results = {"SVM_linear": [], "SVM_POLY2": [], "SVM_POLY5": [], "SVM_RBF": [], "RF": []}
-    # for i in range(k):
-    #     print("="*10)
-    #     print("Fold {}".format(i))
-    #     start = i * X.shape[0] // k
-    #     end = (i + 1) * X.shape[0] // k
-    #     a, b = X[:start], X[end:]
-    #     if a.shape[0] and b.shape[0]:
-    #         x_train = np.vstack([X[:start, :], X[end:, :]])
-    #         x_norm_train = np.vstack([X_norm[:start, :], X_norm[end:, :]])
-    #         y_train = np.hstack((Y[:start], Y[end:]))
-    #     else:
-    #         if a.shape[0]:
-    #             x_train = X[:start, :]
-    #             x_norm_train = X_norm[:start, :]
-    #             y_train = Y[:start]
-    #         else:
-    #             x_train = X[end:, :]
-    #             x_norm_train = X_norm[end:, :]
-    #             y_train = Y[end:]
+    for i in range(k):
+        print("="*10)
+        print("Fold {}".format(i))
+        start = i * X.shape[0] // k
+        end = (i + 1) * X.shape[0] // k
+        a, b = X[:start], X[end:]
+        if a.shape[0] and b.shape[0]:
+            x_train = np.vstack([X[:start, :], X[end:, :]])
+            x_norm_train = np.vstack([X_norm[:start, :], X_norm[end:, :]])
+            y_train = np.hstack((Y[:start], Y[end:]))
+        else:
+            if a.shape[0]:
+                x_train = X[:start, :]
+                x_norm_train = X_norm[:start, :]
+                y_train = Y[:start]
+            else:
+                x_train = X[end:, :]
+                x_norm_train = X_norm[end:, :]
+                y_train = Y[end:]
 
-    #     x_val = X[start:end, :]
-    #     x_norm_val = X_norm[start:end, :]
-    #     y_val = Y[start:end]
-    #     C = 10
-    #     model_linear = SVC(kernel='linear', C=0.1)
-    #     model_poly_2 = SVC(kernel='poly', C=C, degree=2)
-    #     model_poly_5 = SVC(kernel='poly', C=C, degree=5)
-    #     model_rbf = SVC(kernel='rbf', C=C)
-    #     model_rf = RandomForestClassifier(n_estimators=100)
+        x_val = X[start:end, :]
+        x_norm_val = X_norm[start:end, :]
+        y_val = Y[start:end]
+        C = 10
+        model_linear = SVC(kernel='linear', C=0.1)
+        model_poly_2 = SVC(kernel='poly', C=C, degree=2)
+        model_poly_5 = SVC(kernel='poly', C=C, degree=5)
+        model_rbf = SVC(kernel='rbf', C=C)
+        model_rf = RandomForestClassifier(n_estimators=100)
        
-    #     # Found n_estimators = 100 worked the best using this code
-    #     # for i in range(20, 120, 20):
-    #     #     print("Estimators: {}".format(i))
-    #     #     model_rf = RandomForestClassifier(n_estimators=i)
-    #     #     model_rf.fit(x_train, y_train)
-    #     #     rf_score = model_rf.score(x_val, y_val)
-    #     #     print("Random forest train acc {}".format(model_rf.score(x_train, y_train)))
-    #     #     print("Random forest val acc {}".format(rf_score))
+        # Found n_estimators = 100 worked the best using this code
+        # for i in range(20, 120, 20):
+        #     print("Estimators: {}".format(i))
+        #     model_rf = RandomForestClassifier(n_estimators=i)
+        #     model_rf.fit(x_train, y_train)
+        #     rf_score = model_rf.score(x_val, y_val)
+        #     print("Random forest train acc {}".format(model_rf.score(x_train, y_train)))
+        #     print("Random forest val acc {}".format(rf_score))
 
-    #     print("Training linear SVM")
-    #     model_linear.fit(x_norm_train, y_train)
-    #     linear_score = model_linear.score(x_norm_val, y_val)
-    #     print("Linear SVM train acc {}".format(model_linear.score(x_norm_train, y_train)))
-    #     print("Linear SVM val acc {}".format(linear_score))
-    #     print("Training poly2 SVM")
-    #     model_poly_2.fit(x_norm_train, y_train)
-    #     poly_2_score = model_poly_2.score(x_norm_val, y_val)
-    #     print("Poly2 SVM train acc {}".format(model_poly_2.score(x_norm_train, y_train)))
-    #     print("Poly2 SVM val acc {}".format(poly_2_score))
-    #     print("Training poly5 SVM")
-    #     model_poly_5.fit(x_norm_train, y_train)
-    #     poly_5_score = model_poly_5.score(x_norm_val, y_val)
-    #     print("Poly5 SVM train acc {}".format(model_poly_5.score(x_norm_train, y_train)))
-    #     print("Poly5 SVM val acc {}".format(poly_5_score))
-    #     print("Training rbf SVM")
-    #     model_rbf.fit(x_norm_train, y_train)
-    #     rbf_score = model_rbf.score(x_norm_val, y_val)
-    #     print("RBF SVM train acc {}".format(model_rbf.score(x_norm_train, y_train)))
-    #     print("RBF SVM val acc {}".format(rbf_score))
-    #     print("Training random forest")
-    #     model_rf.fit(x_train, y_train)
-    #     rf_score = model_rf.score(x_val, y_val)
-    #     print("Random forest train acc {}".format(model_rf.score(x_train, y_train)))
-    #     print("Random forest val acc {}".format(rf_score))
+        print("Training linear SVM")
+        model_linear.fit(x_norm_train, y_train)
+        linear_score = model_linear.score(x_norm_val, y_val)
+        print("Linear SVM train acc {}".format(model_linear.score(x_norm_train, y_train)))
+        print("Linear SVM val acc {}".format(linear_score))
+        print("Training poly2 SVM")
+        model_poly_2.fit(x_norm_train, y_train)
+        poly_2_score = model_poly_2.score(x_norm_val, y_val)
+        print("Poly2 SVM train acc {}".format(model_poly_2.score(x_norm_train, y_train)))
+        print("Poly2 SVM val acc {}".format(poly_2_score))
+        print("Training poly5 SVM")
+        model_poly_5.fit(x_norm_train, y_train)
+        poly_5_score = model_poly_5.score(x_norm_val, y_val)
+        print("Poly5 SVM train acc {}".format(model_poly_5.score(x_norm_train, y_train)))
+        print("Poly5 SVM val acc {}".format(poly_5_score))
+        print("Training rbf SVM")
+        model_rbf.fit(x_norm_train, y_train)
+        rbf_score = model_rbf.score(x_norm_val, y_val)
+        print("RBF SVM train acc {}".format(model_rbf.score(x_norm_train, y_train)))
+        print("RBF SVM val acc {}".format(rbf_score))
+        print("Training random forest")
+        model_rf.fit(x_train, y_train)
+        rf_score = model_rf.score(x_val, y_val)
+        print("Random forest train acc {}".format(model_rf.score(x_train, y_train)))
+        print("Random forest val acc {}".format(rf_score))
 
-    #     model_results["SVM_linear"].append(linear_score)
-    #     model_results["SVM_POLY2"].append(poly_2_score)
-    #     model_results["SVM_POLY5"].append(poly_5_score)
-    #     model_results["SVM_RBF"].append(rbf_score)
-    #     model_results["RF"].append(rf_score)
+        model_results["SVM_linear"].append(linear_score)
+        model_results["SVM_POLY2"].append(poly_2_score)
+        model_results["SVM_POLY5"].append(poly_5_score)
+        model_results["SVM_RBF"].append(rbf_score)
+        model_results["RF"].append(rf_score)
 
-    #     pickle.dump(model_linear, open("cache/model_linear_{}.pkl".format(k), "wb"))
-    #     pickle.dump(model_poly_2, open("cache/model_poly_2_{}.pkl".format(k), "wb"))
-    #     pickle.dump(model_poly_5, open("cache/model_poly_5_{}.pkl".format(k), "wb"))
-    #     pickle.dump(model_rbf, open("cache/model_rbf_{}.pkl".format(k), "wb"))
-    #     pickle.dump(model_rf, open("cache/model_rf_{}.pkl".format(k), "wb"))
+        pickle.dump(model_linear, open("cache/model_linear_{}.pkl".format(k), "wb"))
+        pickle.dump(model_poly_2, open("cache/model_poly_2_{}.pkl".format(k), "wb"))
+        pickle.dump(model_poly_5, open("cache/model_poly_5_{}.pkl".format(k), "wb"))
+        pickle.dump(model_rbf, open("cache/model_rbf_{}.pkl".format(k), "wb"))
+        pickle.dump(model_rf, open("cache/model_rf_{}.pkl".format(k), "wb"))
 
-    # so_far = float("-inf")
-    # best = None
-    # for model in model_results:
-    #     print(model, np.mean(model_results[model]))
-    #     if np.mean(model_results[model]) > so_far:
-    #         so_far = np.mean(model_results[model])
-    #         best = model
-    # print("Best model: {}, avg val acc: {}".format(best, np.mean(model_results[best])))
+    so_far = float("-inf")
+    best = None
+    for model in model_results:
+        print(model, np.mean(model_results[model]))
+        if np.mean(model_results[model]) > so_far:
+            so_far = np.mean(model_results[model])
+            best = model
+    print("Best model: {}, avg val acc: {}".format(best, np.mean(model_results[best])))
 
-    # """
-    # SVM_linear 0.6470117707529892
-    # SVM_POLY2 0.6454764273775153
-    # SVM_POLY5 0.6399581810988588
-    # SVM_RBF 0.6815451293557973
-    # RF 0.7728406592778209
-    # Best model: RF, avg val acc: 0.7728406592778209
-    # """
+    """
+    SVM_linear 0.6470117707529892
+    SVM_POLY2 0.6454764273775153
+    SVM_POLY5 0.6399581810988588
+    SVM_RBF 0.6815451293557973
+    RF 0.7728406592778209
+    Best model: RF, avg val acc: 0.7728406592778209
+    """
 
     x_val = X[int(0.8*len(X)):, :]
     y_val = Y[int(0.8*len(X)):]
